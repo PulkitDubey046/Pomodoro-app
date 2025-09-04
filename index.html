@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulkit's Pomodoro</title>
+    <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <img src="logo.png" alt="Logo" height="40" width="40" class="logo-img" />
+          Pulkit's Pomodoro 
+        </div>
+        <nav>
+          <button id="settings-button" class="nav-button">Settings</button>
+          <button
+            id="theme-toggle"
+            class="nav-button"
+            aria-label="Toggle theme"
+          >
+            <svg
+              id="moon-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-label="Moon icon"
+              role="img"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+            </svg>
+
+            <svg
+              id="sun-icon"
+              class="hidden"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-label="Sun icon"
+              role="img"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          </button>
+        </nav>
+      </header>
+      <main class="timer-card">
+        <div class="session-selector">
+          <button class="session-button active" data-session="work">
+            Pomodoro
+          </button>
+          <button class="session-button" data-session="shortBreak">
+            Short Break
+          </button>
+          <button class="session-button" data-session="longBreak">
+            Long Break
+          </button>
+        </div>
+        <div class="timer-display">
+          <svg class="progress-ring" width="180" height="180">
+            <circle
+              stroke="var(--color-ring-background)"
+              ;
+              stroke-width="8"
+              fill="transparent"
+              r="85"
+              cx="90"
+              cy="90"
+            />
+            <circle
+              class="progress-ring__circle"
+              stroke="var(--color-accent)"
+              stroke-width="8"
+              fill="transparent"
+              r="85"
+              cx="90"
+              cy="90"
+            />
+          </svg>
+          <div class="timer-text">
+            <span id="timer-minutes">25</span>:<span id="timer-seconds"
+              >00</span
+            >
+          </div>
+        </div>
+        <button id="start-button" class="control-button">START</button>
+        <button id="reset-button" class="hidden control-button reset">
+          Reset
+        </button>
+        <div class="status-message">
+          <span id="pomodoro-count">#1</span>
+          <span id="session-message">Time to focus!</span>
+        </div>
+      </main>
+      <section class="tasks-section">
+        <div class="tasks-header"><h2>Tasks</h2></div>
+        <div class="task-list" id="task-list"></div>
+        <input
+          type="text"
+          id="new-task-input"
+          class="add-task-input"
+          placeholder="Add a new task..."
+        />
+      </section>
+      <div
+        id="settings-modal"
+        class="hidden modal"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Settings</h2>
+            <button
+              id="close-modal-button"
+              class="close-button"
+              aria-label="Close settings"
+            >
+              &times;
+            </button>
+          </div>
+          <div class="settings-form">
+            <div class="form-group">
+              <label for="work-duration">Work Duration</label>
+              <input type="number" id="work-duration" min="1" value="25" />
+            </div>
+            <div class="form-group">
+              <label for="short-break-duration">Short Break</label>
+              <input
+                type="number"
+                id="short-break-duration"
+                min="1"
+                value="5"
+              />
+            </div>
+            <div class="form-group">
+              <label for="long-break-duration">Long Break</label>
+              <input
+                type="number"
+                id="long-break-duration"
+                min="1"
+                value="15"
+              />
+            </div>
+            <div class="form-group">
+              <label for="long-break-interval"
+                >Pomodoros before Long Break</label
+              >
+              <input type="number" id="long-break-interval" min="1" value="4" />
+            </div>
+            <div class="form-group">
+              <label for="auto-start">Auto Start Next?</label>
+              <input type="checkbox" id="auto-start" />
+            </div>
+          </div>
+          <button id="save-settings-button">Save</button>
+        </div>
+      </div>
+    </div>
+    <section class="info-section">
+      <h1>An online Pomodoro Timer to boost your productivity</h1>
+
+      <h2>About This App</h2>
+      <p>
+        This is a <strong>Pomofocus.io inspired clone</strong> built by
+        <strong>Pulkit Dubey</strong>. The app helps you manage time effectively
+        using the Pomodoro Technique. You can try the original app at
+        <a href="https://pomofocus.io" target="_blank" rel="noopener noreferrer"
+          >Pomofocus.io</a
+        >.
+      </p>
+
+      <h2>What is the Pomodoro Technique?</h2>
+      <p>
+        The Pomodoro Technique is a time management method that breaks work into
+        25-minute focused intervals, followed by short breaks to recharge.
+      </p>
+
+      <h2>Features of This App</h2>
+      <ul>
+        <li>
+          ⏱ <strong>Customizable Timer</strong> — adjust work, short break, and
+          long break durations
+        </li>
+        <li>
+          📊 <strong>Progress Tracking</strong> — see how many Pomodoros you’ve
+          completed
+        </li>
+        <li>
+          📝 <strong>Task List</strong> — add, mark, and remove tasks to stay
+          organized
+        </li>
+        <li>
+          ⚙️ <strong>Settings Panel</strong> — control long break intervals and
+          auto-start options
+        </li>
+        <li>
+          🌙 <strong>Dark & Light Mode</strong> — switch themes for comfortable
+          viewing
+        </li>
+        <li>
+          📱 <strong>Responsive Design</strong> — works seamlessly on desktop
+          and mobile
+        </li>
+        <li>
+          🔔 <strong>Sound Notification</strong> — beep when a session ends
+        </li>
+        <li>
+          🎯 <strong>Focus & Productivity</strong> — stay on track and build
+          discipline
+        </li>
+      </ul>
+    </section>
+
+    <footer
+      style="
+        margin-top: 3rem;
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--color-text);
+        border-top: 1px solid var(--color-border-light);
+      "
+    >
+      <p>
+        Built with ❤️ by <strong>Pulkit Dubey</strong> | Inspired by
+        <a href="https://pomofocus.io" target="_blank" rel="noopener noreferrer"
+          >Pomofocus.io</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>
